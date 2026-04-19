@@ -40,6 +40,7 @@ end
 _M.modes = {
   [1] = {
     -- Easy modo
+    name = "Easy",
     words = make_name_set(4, 6, 30),
     time = 20,
     tries = 10,
@@ -47,6 +48,7 @@ _M.modes = {
   },
   [2] = {
     -- Normal
+    name = "Normal",
     words = make_name_set(5, 9, 50),
     time = 20,
     tries = 8,
@@ -54,6 +56,7 @@ _M.modes = {
   },
   [3] = {
     -- Hard
+    name = "Hard",
     words = make_name_set(6, 15, 70),
     time = 20,
     tries = 5,
@@ -61,6 +64,7 @@ _M.modes = {
   },
   [4] = {
     -- Lunatic
+    name = "Lunatic",
     words = make_name_set(0, 100, #words.names),
     time = 40,
     tries = 3,
@@ -68,6 +72,7 @@ _M.modes = {
   },
   [5] = {
     -- Cursed
+    name = "...",
     words = (function()
       local tbl = {}
       for _ = 1, 200, 1 do
