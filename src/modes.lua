@@ -41,7 +41,7 @@ _M.modes = {
   [1] = {
     -- Easy modo
     name = "Easy",
-    words = make_name_set(4, 6, 30),
+    words = make_name_set(4, 6, 2),
     time = 20,
     tries = 10,
     icon = love.graphics.newImage("image/easymodo.jpg")
@@ -52,7 +52,7 @@ _M.modes = {
     words = make_name_set(5, 9, 50),
     time = 20,
     tries = 8,
-    icon = love.graphics.newImage("image/easymodo.jpg")
+    icon = love.graphics.newImage("image/normalmodo.png")
   },
   [3] = {
     -- Hard
@@ -60,7 +60,7 @@ _M.modes = {
     words = make_name_set(6, 15, 70),
     time = 20,
     tries = 5,
-    icon = love.graphics.newImage("image/easymodo.jpg")
+    icon = love.graphics.newImage("image/hardmodo.png")
   },
   [4] = {
     -- Lunatic
@@ -68,11 +68,11 @@ _M.modes = {
     words = make_name_set(0, 100, #words.names),
     time = 40,
     tries = 3,
-    icon = love.graphics.newImage("image/easymodo.jpg")
+    icon = love.graphics.newImage("image/lunaticmodo.png")
   },
   [5] = {
     -- Cursed
-    name = "...",
+    name = "???????",
     words = (function()
       local tbl = {}
       for _ = 1, 200, 1 do
@@ -82,7 +82,7 @@ _M.modes = {
     end)(),
     time = 50,
     tries = 1,
-    icon = love.graphics.newImage("image/easymodo.jpg")
+    icon = love.graphics.newImage("image/keikimodo.jpg")
   },
 }
 
