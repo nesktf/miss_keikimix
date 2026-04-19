@@ -1,68 +1,31 @@
 local love = _G.love
 local anim = require('anim')
 local iffy = require("lib.iffy")
+local words = require('words')
 
-local keiki_atlas = iffy.newAtlas("image/keiki.png")
-
+iffy.newAtlas("image/keiki.png")
 local font = love.graphics.newFont("font/CousineNerdFont-Regular.ttf", 20)
-local normal_str = love.graphics.newText(font, "")
-local color_str = love.graphics.newText(font, "")
+local yippie = love.graphics.newText(font, "Yippie!!11!1")
+local dies = love.graphics.newText(font, "DEAD")
+
+local red = {1, 0, 0, 1}
+local white = {1, 1, 1, 1}
+
+local word_handler = words.make_handler(font, words.ENTRIES, white, red)
 
 function love.load()
   love.keyboard.setTextInput(true)
 end
 
-local words = {
-  "REIMU",
-  "MARISA",
-  "RUMIA",
-  "CIRNO",
-  "DAIYOUSEI",
-  "MEILING",
-  "KOAKUMA",
-  "PATCHOULI",
-  "SAKUYA",
-  "REMILIA",
-  "FLANDRE",
-  "LETTY",
-  "CHEN",
-  "ALICE",
-  "LILY",
-  "MERLIN",
-  "LYRICA",
-  "LUNASA",
-  "YOUMU",
-  "YUYUKO",
-  "RAN",
-  "YUKARI",
-}
-
-local red = {1, 0, 0, 1}
-local white = {1, 1, 1, 1}
-
-local word_idx = 0
-local word_pos = 1
-normal_str:set{white, words[1]}
-local curr_str = ""
-
+local fails = 0
+local status = words.CODE.continue
 function love.keypressed(key, code, isrep)
-  local word = words[word_idx+1]
-  normal_str:set{white, word}
-  local ch = word:sub(word_pos, word_pos)
-  print(ch)
-  if (key:upper() == ch) then
-    local next = word:sub(word_pos+1, word_pos+1)
-    if (next == "") then
-      word_idx = (word_idx + 1) % #words
-      word_pos = 1
-      ch = words[word_idx+1]:sub(word_pos, word_pos)
-      normal_str:set{white, words[word_idx+1]}
-      curr_str = ""
-    else
-      word_pos = word_pos +1
-      curr_str = curr_str .. ch
+  if (fails < 3 and status ~=words.CODE.finished) then
+    status = word_handler:update(key)
+    if (status == words.CODE.bad_char) then
+      word_handler:reset_word()
+      fails = fails + 1
     end
-    color_str:set{red, curr_str}
   end
 end
 
@@ -72,7 +35,12 @@ function love.update(dt)
 end
 
 function love.draw()
+  if (status == words.CODE.finished) then
+    love.graphics.draw(yippie, 400, 300)
+  elseif (fails >= 3) then
+    love.graphics.draw(dies, 400, 300)
+  else
+    word_handler:draw(400, 300)
+  end
   iffy.drawSprite(keiki:get_name())
-  love.graphics.draw(normal_str, 400, 300)
-  love.graphics.draw(color_str, 400, 300)
 end
