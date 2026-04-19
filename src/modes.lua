@@ -41,34 +41,38 @@ _M.modes = {
   [1] = {
     -- Easy modo
     name = "Easy",
-    words = make_name_set(4, 6, 2),
-    time = 20,
+    words = make_name_set(4, 6, 30),
+    time = 50,
     tries = 10,
-    icon = love.graphics.newImage("image/easymodo.jpg")
+    icon = love.graphics.newImage("image/easymodo.jpg"),
+    music = 1,
   },
   [2] = {
     -- Normal
     name = "Normal",
     words = make_name_set(5, 9, 50),
-    time = 20,
+    time = 65,
     tries = 8,
-    icon = love.graphics.newImage("image/normalmodo.png")
+    icon = love.graphics.newImage("image/normalmodo.png"),
+    music = 1,
   },
   [3] = {
     -- Hard
     name = "Hard",
     words = make_name_set(6, 15, 70),
-    time = 20,
+    time = 80,
     tries = 5,
-    icon = love.graphics.newImage("image/hardmodo.png")
+    icon = love.graphics.newImage("image/hardmodo.png"),
+    music = 1,
   },
   [4] = {
     -- Lunatic
     name = "Lunatic",
     words = make_name_set(0, 100, #words.names),
-    time = 40,
+    time = #words.names,
     tries = 3,
-    icon = love.graphics.newImage("image/lunaticmodo.png")
+    icon = love.graphics.newImage("image/lunaticmodo.png"),
+    music = 1,
   },
   [5] = {
     -- Cursed
@@ -80,9 +84,10 @@ _M.modes = {
       end
       return tbl
     end)(),
-    time = 50,
+    time = 150,
     tries = 1,
-    icon = love.graphics.newImage("image/keikimodo.jpg")
+    icon = love.graphics.newImage("image/keikimodo.jpg"),
+    music = 2,
   },
 }
 

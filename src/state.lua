@@ -7,6 +7,7 @@ local state = {
   mode = nil,
   handler = nil,
   ending = nil,
+  timer = 0,
   fails = 0,
   word_count = 0,
   word_total = 0,
@@ -23,16 +24,21 @@ function _M.reset(font, mode_index, ending_cb)
   state.word_status = words.status.continue
   state.handler = words.make_handler(font, state.mode.words, white, red)
   state.ending_cb = ending_cb
+  state.timer = 0
 end
 
 function _M.status_string()
-  return string.format("MODE: %s\nPROGRESS: %d/%d (%.2f%%)\nFAILED: %d/%d",
+  return string.format("TIME: %.2f/%.2f\nMODE: %s\nPROGRESS: %d/%d (%.2f%%)\nFAILED: %d/%d",
+    state.timer, state.mode.time,
     state.mode.name, state.word_count, state.word_total, state.word_count*100/state.word_total,
     state.fails, state.mode.tries
   )
 end
 
 function _M.key_update(key)
+  if (state.timer >= state.mode.time) then
+    return
+  end
   if (state.fails < state.mode.tries and words.is_valid_char(key)
       and state.word_status ~= words.status.finished) then
     state.word_status = state.handler:update(key)
@@ -46,6 +52,13 @@ function _M.key_update(key)
   end
   if (state.word_count == state.word_total or state.fails >= state.mode.tries) then
     state.ending_cb(state.word_status)
+  end
+end
+
+function _M.update(dt)
+  state.timer = state.timer + dt
+  if (state.timer >= state.mode.time) then
+    state.ending_cb(words.status.bad_char)
   end
 end
 

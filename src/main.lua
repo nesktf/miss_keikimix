@@ -13,6 +13,14 @@ local keiki_smol = love.graphics.newImage("image/keiki_smol.png")
 local lmao = love.graphics.newImage("image/itsover.jpg")
 local yippie = love.graphics.newImage("image/yippie.png")
 
+local stage_music = {
+  love.audio.newSource("audio/gameplay.ogg", "stream"),
+  love.audio.newSource("audio/evil_gameplay.ogg", "stream"),
+}
+local menu_music = love.audio.newSource("audio/title.ogg", "stream")
+local death_music = love.audio.newSource("audio/death.ogg", "stream")
+local win_music = love.audio.newSource("audio/win.ogg", "stream")
+
 local youwon = love.graphics.newText(word_font, "You won!11!11!")
 local youdied = love.graphics.newText(word_font, "DEAD LOL")
 local oktext = love.graphics.newText(word_font, "ok")
@@ -31,12 +39,20 @@ local function start_game(mode_idx)
   state.reset(word_font, mode_idx, function(status)
     if (status == words.status.finished) then
       screen = screen_state.win
+      love.audio.stop()
+      love.audio.play(win_music)
     else
+      love.audio.stop()
+      love.audio.play(death_music)
       screen = screen_state.dead
     end
   end)
+  love.audio.stop()
+  love.audio.play(stage_music[modes.modes[mode_idx].music])
   screen = screen_state.ingame
 end
+
+love.audio.play(menu_music)
 
 local menu_mode = 0
 local keiki = anim.make_anim("keiki", 30, 0.016)
@@ -79,6 +95,8 @@ function love.keypressed(key, code, isrep)
     end
   elseif (screen == screen_state.win or screen == screen_state.dead) then
     if (key == "return") then
+      love.audio.stop()
+      love.audio.play(menu_music)
       screen = screen_state.menu
     end
   end
@@ -87,6 +105,7 @@ end
 function love.update(dt)
   if (screen == screen_state.ingame) then
     keiki:update(dt)
+    state.update(dt)
   end
 end
 
