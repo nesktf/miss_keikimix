@@ -6,6 +6,7 @@ _M.status = {
   continue = 0,
   finished = 1,
   bad_char = 2,
+  end_word = 3,
 }
 
 _M.names = {
@@ -85,6 +86,7 @@ local function on_key_update(self, key)
   if (key:upper() == ch) then
     local next = word:sub(pos+1, pos+1)
     if (next == "") then
+      status = _M.status.end_word
       self.word_idx = self.word_idx + 1
       if (self.word_idx == word_count) then
         self.word_idx = 0
@@ -133,6 +135,14 @@ function _M.make_handler(font, word_set, normal, fill)
     draw = on_draw,
     reset_word = on_word_reset,
   }
+end
+
+function _M.is_valid_char(ch)
+  if type(ch) ~= "string" or #ch ~= 1 then
+    return false
+  end
+  local m = string.match(ch, "%a")
+  return m ~= nil
 end
 
 return _M
