@@ -2,35 +2,73 @@ local love = _G.love
 
 local _M = {}
 
-_M.CODE = {
+_M.status = {
   continue = 0,
   finished = 1,
   bad_char = 2,
 }
 
-_M.ENTRIES = {
-  "REIMU",
-  "MARISA",
-  "RUMIA",
-  "CIRNO",
-  "DAIYOUSEI",
-  "MEILING",
-  "KOAKUMA",
-  "PATCHOULI",
-  "SAKUYA",
-  "REMILIA",
-  "FLANDRE",
-  "LETTY",
-  "CHEN",
-  "ALICE",
-  "LILY",
-  "MERLIN",
-  "LYRICA",
-  "LUNASA",
-  "YOUMU",
-  "YUYUKO",
-  "RAN",
-  "YUKARI",
+_M.names = {
+  "REIMU", "MARISA",
+
+  "RUMIA", "CIRNO", "DAIYOUSEI", "MEILING",
+  "KOAKUMA", "PATCHOULI", "SAKUYA", "REMILIA", "FLANDRE",
+
+  "LETTY", "CHEN", "ALICE", "LILY", "MERLIN",
+  "LYRICA", "LUNASA", "YOUMU", "YUYUKO", "RAN", "YUKARI",
+
+  "SUIKA",
+
+  "WRIGGLE", "MYSTIA", "KEINE", "TEWI", "REISEN",
+  "EIRIN", "KAGUYA", "MOKOU",
+
+  "AYA", "MEICINE", "YUUKA", "KOMACHI", "SHIKIEIKI",
+
+  "SHIZUHA", "MINORIKO", "HINA", "NITORI", "MOMIJI",
+  "SANAE", "KANAKO", "SUWAKO",
+
+  "IKU", "TENSHI",
+
+  "KISUME", "YAMAME", "PARSEE", "YUUGI",
+  "SATORI", "RIN", "UTSUHO", "KOISHI",
+
+  "NAZRIN", "KOGASA", "ICHIRIN", "UNZAN",
+  "MURASA", "SHOU", "BYAKUREN", "NUE",
+
+  "HATATE",
+
+  "LUNA", "STAR", "SUNNY",
+
+  "KYOUKO", "KOGASA", "YOSHIKA", "SEIGA", "TOJIKO",
+  "FUTO", "MIKO", "MAMIZOU",
+
+  "KOKORO",
+
+  "WAKASAGIHIME", "SEKIBANKI", "KAGEROU",
+  "BENBEN", "YATSUHASHI", "SEIJA", "SHINMYOUMARU", "RAIKO",
+
+  "SEIRAN", "RINGO", "DOREMY", "SAGUME",
+  "CLOWNPIECE", "JUNKO", "HECATIA",
+
+  "JOON", "SHION",
+
+  "ETERNITY", "NEMUNO", "AUNN", "NARUMI", "MAI", "SATONO", "OKINA",
+
+  "SUMIREKO",
+
+  "EIKA", "URUMI", "KUTAKA", "YACHIE",
+  "MAYUMI", "KEIKI", "SAKI",
+
+  "MIKE", "TAKANE", "SANNYO", "MISUMARU",
+  "TSUKASA", "MEGUMU", "CHIMATA", "MOMOYO",
+
+  "YUUMA", "BITEN", "ENOKO", "CHIYARI",
+  "HISAMI", "ZANMU",
+
+  "UBAME", "CHIMI", "NAREKO", "YUIMAN",
+  "TOYOHIME", "ARIYA", "NINA",
+
+  "RENKO", "MARIBEL",
 }
 
 local function on_key_update(self, key)
@@ -43,14 +81,14 @@ local function on_key_update(self, key)
   self.normal_text:set{self.normal_color, word}
   local ch = word:sub(pos, pos)
 
-  local status = _M.CODE.continue
+  local status = _M.status.continue
   if (key:upper() == ch) then
     local next = word:sub(pos+1, pos+1)
     if (next == "") then
       self.word_idx = self.word_idx + 1
       if (self.word_idx == word_count) then
         self.word_idx = 0
-        status = _M.CODE.finished
+        status = _M.status.finished
       end
       self.word_pos = 1
       ch = get_word():sub(pos, pos)
@@ -62,7 +100,7 @@ local function on_key_update(self, key)
     end
     self.fill_text:set{self.fill_color, self.fill_string}
   else
-    status = _M.CODE.bad_char
+    status = _M.status.bad_char
   end
   return status
 end

@@ -11,18 +11,19 @@ local dies = love.graphics.newText(font, "DEAD")
 local red = {1, 0, 0, 1}
 local white = {1, 1, 1, 1}
 
-local word_handler = words.make_handler(font, words.ENTRIES, white, red)
+local word_handler = words.make_handler(font, words.names, white, red)
 
 function love.load()
   love.keyboard.setTextInput(true)
 end
 
 local fails = 0
-local status = words.CODE.continue
+local status = words.status.continue
 function love.keypressed(key, code, isrep)
-  if (fails < 3 and status ~=words.CODE.finished) then
+  print(key, code)
+  if (fails < 3 and status ~=words.status.finished) then
     status = word_handler:update(key)
-    if (status == words.CODE.bad_char) then
+    if (status == words.status.bad_char) then
       word_handler:reset_word()
       fails = fails + 1
     end
@@ -35,7 +36,8 @@ function love.update(dt)
 end
 
 function love.draw()
-  if (status == words.CODE.finished) then
+  love.graphics.print(string.format("FAILED: %d", fails), 400, 280)
+  if (status == words.status.finished) then
     love.graphics.draw(yippie, 400, 300)
   elseif (fails >= 3) then
     love.graphics.draw(dies, 400, 300)
