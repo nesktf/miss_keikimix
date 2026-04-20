@@ -79,7 +79,7 @@ local function recolor_text()
 end
 recolor_text()
 
-function love.keypressed(key, code, isrep)
+function love.keypressed(_, key, isrep)
   if (screen == screen_state.ingame) then
     state.key_update(key)
   elseif (screen == screen_state.menu) then
@@ -129,8 +129,8 @@ local function draw_menu()
 end
 
 local function draw_game()
-  love.graphics.print(state.status_string(), 120, 200)
-  state.draw_word(120, 260)
+  love.graphics.print(state.status_string(), 60, 200)
+  state.draw_word(60, 260)
   iffy.drawSprite(keiki:get_name(), 400 - (322 / 2) + 200, 300 - (322/2))
 end
 
